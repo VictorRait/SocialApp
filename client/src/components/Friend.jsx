@@ -24,13 +24,16 @@ function Friend({friendId, name, subtitle, userPicturePath}) {
 	const isFriend =
 		friends.length > 0 ? friends.find((friend) => friend._id === friendId) : "";
 	const patchFriend = async () => {
-		const res = await fetch(`http://localhost:3001/users/${_id}/${friendId}`, {
-			method: "PATCH",
-			headers: {
-				Authorization: `Bearer ${token}`,
-				"Content-Type": "application/json",
-			},
-		});
+		const res = await fetch(
+			`https://socialapp-i72u.onrender.com/users/${_id}/${friendId}`,
+			{
+				method: "PATCH",
+				headers: {
+					Authorization: `Bearer ${token}`,
+					"Content-Type": "application/json",
+				},
+			}
+		);
 
 		if (!res.ok) {
 			throw new Error(`HTTP error! Status: ${res.status}`);

@@ -16,10 +16,13 @@ function FriendListWidget({userId}) {
 	console.log();
 	const getFriends = async () => {
 		try {
-			const res = await fetch(`http://localhost:3001/users/${userId}/friends`, {
-				method: "GET",
-				headers: {Authorization: `Bearer ${token}`},
-			});
+			const res = await fetch(
+				`https://socialapp-i72u.onrender.com/users/${userId}/friends`,
+				{
+					method: "GET",
+					headers: {Authorization: `Bearer ${token}`},
+				}
+			);
 
 			if (res.ok) {
 				const data = await res.json();
