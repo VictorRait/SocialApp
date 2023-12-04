@@ -44,7 +44,7 @@ export default function Form() {
 	const isNonMobile = useMediaQuery("(min-width:600px)");
 	const isLogin = pageType === "login";
 	const isRegister = pageType === "register";
-
+	const [loginError, setLoginError] = useState(undefined);
 	const register = async (values, onSubmitProps) => {
 		const formData = new FormData();
 		for (let value in values) {
@@ -56,7 +56,6 @@ export default function Form() {
 			"http://localhost:3001/auth/register",
 			{
 				method: "POST",
-
 				body: formData,
 			}
 		);
@@ -67,23 +66,28 @@ export default function Form() {
 		}
 	};
 	const login = async (values, onSubmitProps) => {
-		const loggedInResponse = await fetch("http://localhost:3001/auth/login", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify(values),
-		});
-		const loggedIn = await loggedInResponse.json();
-		onSubmitProps.resetForm();
-		if (loggedIn) {
-			dispatch(
-				setLogin({
-					user: loggedIn.user,
-					token: loggedIn.token,
-				})
-			);
-			navigate("/home");
+		try {
+			const loggedInResponse = await fetch("http://localhost:3001/auth/login", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(values),
+			});
+			const loggedIn = await loggedInResponse.json();
+			onSubmitProps.resetForm();
+			if (loggedIn) {
+				dispatch(
+					setLogin({
+						user: loggedIn.user,
+						token: loggedIn.token,
+					})
+				);
+				navigate("/home");
+			}
+		} catch (error) {
+			console.log(error);
+			setLoginError(error.message);
 		}
 	};
 
@@ -228,6 +232,9 @@ export default function Form() {
 							}}>
 							{isLogin ? "LOGIN" : "REGISTER"}
 						</Button>
+						{loginError && (
+							<span>Something went wrong! Check your credentials.</span>
+						)}
 						<Typography
 							onClick={() => {
 								setPageType(isLogin ? "register" : "login");
