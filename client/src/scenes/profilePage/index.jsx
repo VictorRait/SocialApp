@@ -17,10 +17,13 @@ function ProfilePage() {
 
 	const getUser = async () => {
 		try {
-			const res = await fetch(`http://localhost:3001/users/${userId}`, {
-				method: "GET",
-				headers: {Authorization: `Bearer ${token}`},
-			});
+			const res = await fetch(
+				`https://socialapp-i72u.onrender.com/users/${userId}`,
+				{
+					method: "GET",
+					headers: {Authorization: `Bearer ${token}`},
+				}
+			);
 			const data = await res.json();
 			console.log(data);
 			setUser(data);

@@ -27,14 +27,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(helmet());
 app.use(helmet.crossOriginResourcePolicy({policy: "cross-origin"}));
-app.use(
-	helmet.contentSecurityPolicy({
-		directives: {
-			defaultSrc: ["'self'"],
-			connectSrc: ["'self'", "http://localhost:3001"],
-		},
-	})
-);
+
 app.use(morgan("common"));
 app.use(cors());
 app.use("/assets", express.static(path.join(__dirname, "./public/assets")));
